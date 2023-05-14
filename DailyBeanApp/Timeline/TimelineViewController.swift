@@ -11,8 +11,7 @@ class TimelineViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = .lightGray
+        self.view.backgroundColor = UIColor.backgroundColor
     }
     
 

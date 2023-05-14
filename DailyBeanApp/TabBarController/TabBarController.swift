@@ -13,6 +13,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     var viewModel: TabBarViewModelProtocol?
     private let disposeBag = DisposeBag()
+    private var calendarController: CalendarViewController?
   
     private lazy var selectBeanView: SelectBeanView = {
         let view = SelectBeanView()
@@ -55,6 +56,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         selectBeanView.beanStatus.subscribe { [weak self] status in
             self?.button.updateStatus(status)
+            self?.calendarController?.updateCustomView(image: status.rawValue)
             self?.viewModel?.setBeanViewVisibility(false)
         }.disposed(by: disposeBag)
     }
@@ -65,9 +67,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBarItems() {
-        let calendarController = viewModel?.makeTabBarCalendar() ?? UIViewController()
-        let timeLineController = viewModel?.makeTabBarTimeline() ?? UIViewController()
-        
+        guard let viewModel else { return }
+        let calendarController = viewModel.makeTabBarCalendar()
+        let timeLineController = viewModel.makeTabBarTimeline()
+        self.calendarController = calendarController
         self.viewControllers = [calendarController, timeLineController]
     }
  

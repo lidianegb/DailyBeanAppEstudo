@@ -16,7 +16,7 @@ class DailyBeanFactory: DailyBeanFactoryProtocol {
         self.resolver = resolver
     }
     
-    func makeCalendar() -> UIViewController {
+    func makeCalendar() -> CalendarViewController {
         resolver.resolveUnwrapping(CalendarViewController.self)
     }
     
@@ -24,7 +24,7 @@ class DailyBeanFactory: DailyBeanFactoryProtocol {
         resolver.resolveUnwrapping(TimelineViewController.self)
     }
     
-    func makeTabCalendar(title: String, imageName: String) -> UIViewController {
+    func makeTabCalendar(title: String, imageName: String) -> CalendarViewController {
         let controller = makeCalendar()
         let tab = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: 0)
         tab.titlePositionAdjustment = UIOffset(horizontal: -20, vertical: 0)

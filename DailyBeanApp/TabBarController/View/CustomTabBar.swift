@@ -15,7 +15,7 @@ class CustomTabBar: UITabBar {
     private func addShape() {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = createPath()
-        shapeLayer.strokeColor = UIColor.lightGray.cgColor
+        shapeLayer.strokeColor = UIColor.backgroundColor.cgColor
         shapeLayer.fillColor = UIColor.white.cgColor
         shapeLayer.lineWidth = 1.0
         

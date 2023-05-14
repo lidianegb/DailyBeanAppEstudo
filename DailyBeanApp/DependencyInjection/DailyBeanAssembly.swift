@@ -24,11 +24,17 @@ final class DailyBeanAssembly: Assembly {
             let factory = resolver.resolveUnwrapping(DailyBeanFactoryProtocol.self)
             return TabBarViewModel(factory: factory)
         }
+        
+        container.register(CalendarViewModelProtocol.self) { resolver in
+            return CalendarViewModel()
+        }
        
         // MARK: CLASS
         
-        container.register(CalendarViewController.self) { _ in
-            return CalendarViewController()
+        container.register(CalendarViewController.self) { resolver in
+            let customView = CalendarView()
+            let viewModel = resolver.resolveUnwrapping(CalendarViewModelProtocol.self)
+            return CalendarViewController(view: customView, viewModel: viewModel)
         }
         
         container.register(TimelineViewController.self) { _ in

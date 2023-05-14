@@ -63,7 +63,6 @@ class BeanButton: UIButton {
         return self
     }
     
-    @discardableResult
     func build() -> BeanButton {
         return BeanButton(status: status, action: action)
     }

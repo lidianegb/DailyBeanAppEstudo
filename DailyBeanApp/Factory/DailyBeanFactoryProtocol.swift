@@ -8,8 +8,8 @@
 import UIKit
 
 protocol DailyBeanFactoryProtocol {
-    func makeCalendar() -> UIViewController
+    func makeCalendar() -> CalendarViewController
     func makeTimeline() -> UIViewController
-    func makeTabCalendar(title: String, imageName: String) -> UIViewController
+    func makeTabCalendar(title: String, imageName: String) -> CalendarViewController
     func makeTabTimeline(title: String, imageName: String) -> UIViewController
 }

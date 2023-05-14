@@ -15,7 +15,7 @@ protocol TabBarViewModelProtocol {
     
     func setBeanViewVisibility(_ show: Bool)
     func setBeanViewVisibility()
-    func makeTabBarCalendar() -> UIViewController
+    func makeTabBarCalendar() -> CalendarViewController
     func makeTabBarTimeline() -> UIViewController
 }
 
@@ -43,7 +43,7 @@ extension TabBarViewModel: TabBarViewModelProtocol {
         showBeanView.toggle()
     }
     
-    func makeTabBarCalendar() -> UIViewController {
+    func makeTabBarCalendar() -> CalendarViewController {
         factory.makeTabCalendar(title: "calendário", imageName: "calendar")
     }
     
