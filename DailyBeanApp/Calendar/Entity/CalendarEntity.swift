@@ -11,10 +11,11 @@ struct CalendarEntity: Equatable, Hashable {
     let id: String = UUID().uuidString
     var day: String?
     var beanImage: String?
+    var date: Date?
     
-    init(day: String? = nil, beanImage: String? = nil) {
+    init(day: String? = nil, date: Date? = nil) {
         self.day = day
-        self.beanImage = beanImage
+        self.date = date
     }
     
     mutating func setBackgroundImage(_ beanImage: String) {

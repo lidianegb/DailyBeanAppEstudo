@@ -28,8 +28,8 @@ public struct CalendarListEntity {
         return list.first(where: { $0.id == id })
     }
     
-    func todayItem(with day: String) -> CalendarEntity? {
-        return list.first(where: { $0.day == day })
+    func item(with date: Date) -> CalendarEntity? {
+        return list.first(where: { $0.date == date })
     }
     
     func listID() -> [String] {

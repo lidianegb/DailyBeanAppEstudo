@@ -19,6 +19,12 @@ class CalendarHelper {
         return calendar.date(byAdding: .month, value: -1, to: date)
     }
     
+    func generateDate(_ date: Date, day: Int) -> Date? {
+        var dateComponents = calendar.dateComponents([.year, .month], from: date)
+        dateComponents.day = day
+        return calendar.date(from: dateComponents)
+    }
+    
     func monthString(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "LLLL"
@@ -36,9 +42,13 @@ class CalendarHelper {
         return range?.count ?? .zero
     }
     
-    func dayOfMonth(_ date: Date) -> Int {
-        let component = calendar.dateComponents([.day], from: date)
-        return component.day ?? .zero
+    func isPast(_ date: Date) -> Bool {
+        date < Date()
+    }
+    
+    func today() -> Date {
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        return calendar.date(from: dateComponents) ?? Date()
     }
     
     func firstOfMonth(_ date: Date) -> Date? {

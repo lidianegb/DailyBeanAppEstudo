@@ -26,6 +26,7 @@
 		6B04FE752A0444180027DF37 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B04FE742A0444180027DF37 /* RxSwift */; };
 		6B04FE782A053A2C0027DF37 /* SwinjectStoryboard in Frameworks */ = {isa = PBXBuildFile; productRef = 6B04FE772A053A2C0027DF37 /* SwinjectStoryboard */; };
 		6B04FE7A2A0547500027DF37 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04FE792A0547500027DF37 /* CalendarView.swift */; };
+		6B5E2EE62A12EE4200015BB4 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */; };
 		6B9C6B672A0B061D002A6E80 /* SelectBeanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C6B662A0B061D002A6E80 /* SelectBeanView.swift */; };
 		6BA385882A0E3CD400E4C78E /* CalendarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA385872A0E3CD400E4C78E /* CalendarEntity.swift */; };
 		6BA3858B2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3858A2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift */; };
@@ -54,6 +55,7 @@
 		6B04FE5F2A04437A0027DF37 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6B04FE612A04437A0027DF37 /* TimelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		6B04FE792A0547500027DF37 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 		6B9C6B662A0B061D002A6E80 /* SelectBeanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBeanView.swift; sourceTree = "<group>"; };
 		6BA385872A0E3CD400E4C78E /* CalendarEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntity.swift; sourceTree = "<group>"; };
 		6BA3858A2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 			children = (
 				6BC1F58C2A0BDB4000B70825 /* StringExtension.swift */,
 				6BA3858E2A0E434D00E4C78E /* CalendarHelper.swift */,
+				6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				6BA3858B2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift in Sources */,
 				6BA385882A0E3CD400E4C78E /* CalendarEntity.swift in Sources */,
 				6B04FE662A04437A0027DF37 /* DailyBeanFactory.swift in Sources */,
+				6B5E2EE62A12EE4200015BB4 /* PersistenceHelper.swift in Sources */,
 				6BA3858F2A0E434D00E4C78E /* CalendarHelper.swift in Sources */,
 				6B04FE632A04437A0027DF37 /* DailyBeanDependencyGraph.swift in Sources */,
 				6B04FE3D2A0443040027DF37 /* AppDelegate.swift in Sources */,

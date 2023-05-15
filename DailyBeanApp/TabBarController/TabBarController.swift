@@ -64,6 +64,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     private func setupButton() {
         setupViewHierarchy()
         setupConstraints()
+        if let beanStatus = viewModel?.getBeanStatus() {
+            button.updateStatus(beanStatus)
+        }
     }
     
     private func setupTabBarItems() {

@@ -22,11 +22,15 @@ final class DailyBeanAssembly: Assembly {
         
         container.register(TabBarViewModelProtocol.self) { resolver in
             let factory = resolver.resolveUnwrapping(DailyBeanFactoryProtocol.self)
-            return TabBarViewModel(factory: factory)
+            let persistence = resolver.resolveUnwrapping(PersistenceHelper.self)
+            let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
+            return TabBarViewModel(factory: factory, persistenceHelper: persistence, calendarHelper: calendarHelper)
         }
         
         container.register(CalendarViewModelProtocol.self) { resolver in
-            return CalendarViewModel()
+            let persistence = resolver.resolveUnwrapping(PersistenceHelper.self)
+            let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
+            return CalendarViewModel(calendarHelper: calendarHelper, persistenceHelper: persistence)
         }
        
         // MARK: CLASS
@@ -43,6 +47,16 @@ final class DailyBeanAssembly: Assembly {
         
         container.storyboardInitCompleted(TabBarController.self) { resolver, tab in
             tab.viewModel = resolver.resolveUnwrapping(TabBarViewModelProtocol.self)
+        }
+        
+        // MARK: HELPERS
+        
+        container.register(PersistenceHelper.self) { resolver in
+            return PersistenceHelper()
+        }
+        
+        container.register(CalendarHelper.self) { resolver in
+            return CalendarHelper()
         }
     }
 }

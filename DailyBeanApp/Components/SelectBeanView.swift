@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 class SelectBeanView: UIView {
-    var beanStatus = BehaviorSubject<BeanStatus>(value: .neutral)
+    var beanStatus = PublishSubject<BeanStatus>()
     
     private lazy var hStackView: UIStackView = {
         let stack = UIStackView()
