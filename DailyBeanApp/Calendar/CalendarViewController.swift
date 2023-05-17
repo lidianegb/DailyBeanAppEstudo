@@ -47,12 +47,12 @@ class CalendarViewController: UIViewController {
             self?.customView.updateView(entity)
         }.disposed(by: disposeBag)
         
-        viewModel.observableID.subscribe { [weak self] (id, image) in
-            self?.customView.updateSnapshot(id, image: image)
+        viewModel.observableStatus.subscribe { [weak self] (id, status) in
+            self?.customView.updateSnapshot(id, status: status)
         }.disposed(by: disposeBag)
     }
     
-    func updateCustomView(image: String) {
-        viewModel.updateTodayImage(image)
+    func updateDailyStatus(_ status: BeanStatus) {
+        viewModel.updateDailyStatus(status)
     }
 }

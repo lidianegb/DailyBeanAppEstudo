@@ -11,46 +11,25 @@ import RxSwift
 
 protocol TabBarViewModelProtocol {
     var factory: DailyBeanFactoryProtocol { get }
-    var showBeanOtions: BehaviorSubject<Bool> { get }
     
     func getBeanStatus() -> BeanStatus
-    func setBeanViewVisibility(_ show: Bool)
-    func setBeanViewVisibility()
     func makeTabBarCalendar() -> CalendarViewController
     func makeTabBarTimeline() -> UIViewController
 }
 
 final class TabBarViewModel {
     let persistenceHelper: PersistenceHelper
-    let calendarHelper: CalendarHelper
     var factory: DailyBeanFactoryProtocol
-    var showBeanOtions = BehaviorSubject<Bool>(value: false)
-    
-    private var showBeanView: Bool = false {
-        didSet {
-            showBeanOtions.onNext(showBeanView)
-        }
-    }
-
-    init(factory: DailyBeanFactoryProtocol, persistenceHelper: PersistenceHelper, calendarHelper: CalendarHelper) {
+ 
+    init(factory: DailyBeanFactoryProtocol, persistenceHelper: PersistenceHelper) {
         self.factory = factory
         self.persistenceHelper = persistenceHelper
-        self.calendarHelper = calendarHelper
     }
 }
 
 extension TabBarViewModel: TabBarViewModelProtocol {
     func getBeanStatus() -> BeanStatus {
-        let image = persistenceHelper.getImage(calendarHelper.today())
-        return BeanStatus(rawValue: image) ?? .neutral
-    }
-    
-    func setBeanViewVisibility(_ show: Bool) {
-        showBeanView = show
-    }
-    
-    func setBeanViewVisibility() {
-        showBeanView.toggle()
+        return persistenceHelper.getTodayStatus()
     }
     
     func makeTabBarCalendar() -> CalendarViewController {

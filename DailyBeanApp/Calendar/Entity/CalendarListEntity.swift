@@ -9,11 +9,11 @@ import Foundation
 
 public struct CalendarListEntity {
     private (set) var list: [CalendarEntity]
-    private (set) var month: String
+    private (set) var title: String
     
-    init(list: [CalendarEntity] = [], month: String = "") {
+    init(list: [CalendarEntity] = [], title: String = "") {
         self.list = list
-        self.month = month
+        self.title = title
     }
     
     mutating func append(_ entity: CalendarEntity) {
@@ -24,7 +24,7 @@ public struct CalendarListEntity {
         list.removeAll()
     }
     
-    func item(with id: String) -> CalendarEntity? {
+    func item(with id: UUID) -> CalendarEntity? {
         return list.first(where: { $0.id == id })
     }
     
@@ -32,7 +32,7 @@ public struct CalendarListEntity {
         return list.first(where: { $0.date == date })
     }
     
-    func listID() -> [String] {
+    func listID() -> [UUID] {
         return list.map { $0.id }
     }
     
@@ -42,14 +42,14 @@ public struct CalendarListEntity {
             list[index] = entity
         }
     }
-    
-    func indexOfItem(_ item: CalendarEntity) -> Int? {
-        return list.firstIndex(of: item)
-    }
-    
-    mutating func updateImage(_ id: String, newImage: String) {
-        guard let item = item(with: id), let index = indexOfItem(item) else { return }
-        list[index].beanImage = newImage
+
+    mutating func updateImage(_ id: UUID, newImage: String) {
+        guard let item = list.filter({ $0.id == id }).first else { return }
+        list.enumerated().forEach { (index, value) in
+            if item == value {
+                list[index].beanImage = newImage
+            }
+        }
     }
     
     func item(_ index: Int) -> CalendarEntity? {

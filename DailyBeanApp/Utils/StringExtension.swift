@@ -10,8 +10,6 @@ import UIKit
 extension UIColor {
     
     static let primary = UIColor(hex: "#73ac77") ?? .tintColor
-    static let customGray = UIColor(hex: "#eeeeee") ?? .lightGray
-    static let beanGray = UIColor(hex: "#d2d2d2") ?? .gray
     static let backgroundColor = UIColor(hex: "#f2f3ed") ?? .white
     
     convenience init?(hex: String) {

@@ -9,7 +9,11 @@ import Foundation
 import UIKit
 
 class CalendarHelper {
-    private let calendar = Calendar.current
+    private let calendar: Calendar
+    
+    init(calendar: Calendar) {
+        self.calendar = calendar
+    }
     
     func plusMonth(_ date: Date) -> Date? {
         return calendar.date(byAdding: .month, value: 1, to: date)

@@ -8,17 +8,14 @@
 import Foundation
 
 struct CalendarEntity: Equatable, Hashable {
-    let id: String = UUID().uuidString
+    let id = UUID()
     var day: String?
     var beanImage: String?
     var date: Date?
     
-    init(day: String? = nil, date: Date? = nil) {
+    init(day: String? = nil, date: Date? = nil, beanImage: String? = nil) {
         self.day = day
         self.date = date
-    }
-    
-    mutating func setBackgroundImage(_ beanImage: String) {
         self.beanImage = beanImage
     }
 }

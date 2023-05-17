@@ -137,6 +137,7 @@
 		6B04FE572A04437A0027DF37 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				6BA3858E2A0E434D00E4C78E /* CalendarHelper.swift */,
 				6BA385922A0E459700E4C78E /* ViewModel */,
 				6BA385892A0E3E7100E4C78E /* View */,
 				6BA385862A0E3CC100E4C78E /* Entity */,
@@ -219,7 +220,6 @@
 			isa = PBXGroup;
 			children = (
 				6BC1F58C2A0BDB4000B70825 /* StringExtension.swift */,
-				6BA3858E2A0E434D00E4C78E /* CalendarHelper.swift */,
 				6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */,
 			);
 			path = Utils;

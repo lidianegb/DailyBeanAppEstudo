@@ -14,6 +14,7 @@ enum BeanStatus: String, CaseIterable {
     case neutral
     case sad
     case pained
+    case `default`
 }
 
 class BeanButton: UIButton {

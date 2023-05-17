@@ -18,7 +18,7 @@ class CalendarView: UIView {
     private var entity: CalendarListEntity?
     var observableDirection = PublishSubject<CalendarDirection>()
     
-    private lazy var monthLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -60,12 +60,12 @@ class CalendarView: UIView {
         return view
     }()
     
-    private lazy var calendarDataSource: UICollectionViewDiffableDataSource<Int, String> = {
+    private lazy var calendarDataSource: UICollectionViewDiffableDataSource<Int, UUID> = {
         let cellRegistration = UICollectionView.CellRegistration<CalendarCollectionViewCell, CalendarEntity> { (cell, indexPath, entity) in
             cell.updateCell(entity)
         }
         
-        let dataSource = UICollectionViewDiffableDataSource<Int, String>(collectionView: calendarView) {
+        let dataSource = UICollectionViewDiffableDataSource<Int, UUID>(collectionView: calendarView) {
             (collectionView, indexPath, id) -> UICollectionViewCell in
             let calendarEntity = self.entity?.item(with: id)
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: calendarEntity)
@@ -93,7 +93,7 @@ class CalendarView: UIView {
         addSubview(headerStackView)
         addSubview(calendarView)
         headerStackView.addArrangedSubview(previewButton)
-        headerStackView.addArrangedSubview(monthLabel)
+        headerStackView.addArrangedSubview(titleLabel)
         headerStackView.addArrangedSubview(nextButton)
     }
     
@@ -132,7 +132,7 @@ class CalendarView: UIView {
     }
 
     private func applySnapshot(_ listEntity: CalendarListEntity) {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
         snapshot.appendSections([0])
         snapshot.appendItems(listEntity.listID(), toSection: 0)
         calendarDataSource.apply(snapshot, animatingDifferences: true)
@@ -142,12 +142,12 @@ class CalendarView: UIView {
     
     public func updateView(_ listEntity: CalendarListEntity) {
         self.entity = listEntity
-        self.monthLabel.text = listEntity.month
+        self.titleLabel.text = listEntity.title
         applySnapshot(listEntity)
     }
     
-    public func updateSnapshot(_ id: String, image: String) {
-        entity?.updateImage(id, newImage: image)
+    public func updateSnapshot(_ id: UUID, status: BeanStatus) {
+        entity?.updateImage(id, newImage: status.rawValue)
         var snapshot = calendarDataSource.snapshot()
         snapshot.reconfigureItems([id])
         calendarDataSource.apply(snapshot)

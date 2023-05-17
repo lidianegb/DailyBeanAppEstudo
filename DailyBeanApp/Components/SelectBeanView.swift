@@ -56,6 +56,7 @@ class SelectBeanView: UIView {
         vStackView.addArrangedSubview(title)
         vStackView.addArrangedSubview(hStackView)
         BeanStatus.allCases.forEach { status in
+            if status == .default { return }
             let buttonView = BeanButton()
                 .withStatus(status)
                 .withAction(action: { [weak self] status in
@@ -77,5 +78,4 @@ class SelectBeanView: UIView {
             vStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])
     }
-
 }

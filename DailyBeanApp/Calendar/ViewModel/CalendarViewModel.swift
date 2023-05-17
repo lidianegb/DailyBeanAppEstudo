@@ -10,10 +10,11 @@ import RxSwift
 
 protocol CalendarViewModelProtocol {
     var observableEntity: BehaviorSubject<CalendarListEntity> { get }
-    var observableID: PublishSubject<(String, String)> { get }
+    var observableStatus: PublishSubject<(UUID, BeanStatus)> { get }
+    
     func plusMonth()
     func minusMonth()
-    func updateTodayImage(_ newImage: String)
+    func updateDailyStatus(_ status: BeanStatus)
 }
 
 class CalendarViewModel: CalendarViewModelProtocol {
@@ -28,7 +29,7 @@ class CalendarViewModel: CalendarViewModelProtocol {
     }
     
     var observableEntity = BehaviorSubject<CalendarListEntity>(value: CalendarListEntity())
-    var observableID = PublishSubject<(String, String)>()
+    var observableStatus = PublishSubject<(UUID, BeanStatus)>()
     
     init(calendarHelper: CalendarHelper, persistenceHelper: PersistenceHelper) {
         self.calendarHelper = calendarHelper
@@ -50,9 +51,9 @@ class CalendarViewModel: CalendarViewModelProtocol {
         let daysInMonth = calendarHelper.daysInMonth(selectedDate)
         let firstDayInMonth = calendarHelper.firstOfMonth(selectedDate)
         let startingSpaces = calendarHelper.weekDay(firstDayInMonth ?? selectedDate)
-        let monthString = calendarHelper.monthString(selectedDate).capitalized
+        let title = calendarHelper.monthString(selectedDate).capitalized + " " + calendarHelper.yearString(selectedDate)
        
-        listEntity = CalendarListEntity(month: monthString)
+        listEntity = CalendarListEntity(title: title)
        
         var count: Int = 1
         
@@ -60,15 +61,14 @@ class CalendarViewModel: CalendarViewModelProtocol {
             if (count <= startingSpaces || count - startingSpaces > daysInMonth ) {
                 let calendarEntity = CalendarEntity()
                 listEntity?.append(calendarEntity)
-                
             } else {
                 let day = count - startingSpaces
                 let actualDate = calendarHelper.generateDate(selectedDate, day: day) ?? Date()
                 var calendarEntity = CalendarEntity(day: String(day), date: actualDate)
                 
                 if calendarHelper.isPast(actualDate) {
-                    let image = persistenceHelper.getImage(actualDate)
-                    calendarEntity.setBackgroundImage(image)
+                    let image = persistenceHelper.getStatus(for: actualDate)
+                    calendarEntity.beanImage = image.rawValue
                 }
                 listEntity?.append(calendarEntity)
             }
@@ -80,12 +80,10 @@ class CalendarViewModel: CalendarViewModelProtocol {
         }
     }
     
-    func updateTodayImage(_ newImage: String) {
-        let item = listEntity?.item(with: calendarHelper.today())
-    
-        if let item {
-            observableID.onNext((item.id, newImage))
-            persistenceHelper.saveCalendarEntity(calendarHelper.today(), beanImage: newImage)
+    func updateDailyStatus(_ status: BeanStatus) {
+        if let item = listEntity?.item(with: calendarHelper.today()) {
+            observableStatus.onNext((item.id, status))
+            persistenceHelper.saveDailyStatus(status)
         }
     }
 }

@@ -9,12 +9,23 @@ import Foundation
 
 class PersistenceHelper {
     private let defaults = UserDefaults.standard
+    private let calendar: CalendarHelper
     
-    func saveCalendarEntity(_ date: Date, beanImage: String) {
-        defaults.set(beanImage, forKey: date.description)
+    init(calendar: CalendarHelper) {
+        self.calendar = calendar
     }
     
-    func getImage(_ date: Date) -> String {
-        return defaults.string(forKey: date.description) ?? "default"
+    func saveDailyStatus(_ status: BeanStatus) {
+        defaults.set(status.rawValue, forKey: calendar.today().description)
+    }
+    
+    func getStatus(for date: Date) -> BeanStatus {
+        let statusName = defaults.string(forKey: date.description) ?? "default"
+        return BeanStatus(rawValue: statusName) ?? .default
+    }
+    
+    func getTodayStatus() -> BeanStatus {
+        let statusName = defaults.string(forKey: calendar.today().description) ?? "neutral"
+        return BeanStatus(rawValue: statusName) ?? .neutral
     }
 }

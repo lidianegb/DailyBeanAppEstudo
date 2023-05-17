@@ -13,6 +13,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     var viewModel: TabBarViewModelProtocol?
     private let disposeBag = DisposeBag()
+    private var showSelectBeanView = false {
+        didSet {
+            animateBeanVisibility()
+        }
+    }
     private var calendarController: CalendarViewController?
   
     private lazy var selectBeanView: SelectBeanView = {
@@ -28,7 +33,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     private lazy var button: BeanButton = {
         let button = BeanButton()
             .withAction(action: { [weak self] _ in
-                self?.viewModel?.setBeanViewVisibility()
+                self?.showSelectBeanView.toggle()
             })
             .build()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,34 +43,31 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        
+        if let beanStatus = viewModel?.getBeanStatus() {
+            button.updateStatus(beanStatus)
+        }
     }
     
     private func setup() {
         setupTabBarItems()
-        setupButton()
+        setupViewHierarchy()
+        setupConstraints()
         setupObservables()
     }
     
     private func setupObservables() {
-        viewModel?.showBeanOtions.subscribe(onNext: { [weak self] value in
-            self?.selectBeanView.isHidden = !value
-            UIView.animate(withDuration: 0.3, delay: 0) {
-                self?.selectBeanView.alpha = value ? 1 : 0
-            }
-        }).disposed(by: disposeBag)
-        
-        selectBeanView.beanStatus.subscribe { [weak self] status in
+        selectBeanView.beanStatus.subscribe(onNext: { [weak self] status in
             self?.button.updateStatus(status)
-            self?.calendarController?.updateCustomView(image: status.rawValue)
-            self?.viewModel?.setBeanViewVisibility(false)
-        }.disposed(by: disposeBag)
+            self?.calendarController?.updateDailyStatus(status)
+            self?.showSelectBeanView = false
+        }).disposed(by: disposeBag)
     }
     
-    private func setupButton() {
-        setupViewHierarchy()
-        setupConstraints()
-        if let beanStatus = viewModel?.getBeanStatus() {
-            button.updateStatus(beanStatus)
+    private func animateBeanVisibility() {
+        selectBeanView.isHidden = !showSelectBeanView
+        UIView.animate(withDuration: 0.3, delay: 0) {
+            self.selectBeanView.alpha = self.showSelectBeanView ? 1 : 0
         }
     }
     

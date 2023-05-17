@@ -23,8 +23,8 @@ final class DailyBeanAssembly: Assembly {
         container.register(TabBarViewModelProtocol.self) { resolver in
             let factory = resolver.resolveUnwrapping(DailyBeanFactoryProtocol.self)
             let persistence = resolver.resolveUnwrapping(PersistenceHelper.self)
-            let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
-            return TabBarViewModel(factory: factory, persistenceHelper: persistence, calendarHelper: calendarHelper)
+        
+            return TabBarViewModel(factory: factory, persistenceHelper: persistence)
         }
         
         container.register(CalendarViewModelProtocol.self) { resolver in
@@ -52,11 +52,12 @@ final class DailyBeanAssembly: Assembly {
         // MARK: HELPERS
         
         container.register(PersistenceHelper.self) { resolver in
-            return PersistenceHelper()
+            let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
+            return PersistenceHelper(calendar: calendarHelper)
         }
         
         container.register(CalendarHelper.self) { resolver in
-            return CalendarHelper()
+            return CalendarHelper(calendar: Calendar.current)
         }
     }
 }
