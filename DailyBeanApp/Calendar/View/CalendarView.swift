@@ -55,7 +55,8 @@ class CalendarView: UIView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.backgroundColor
-        view.isScrollEnabled = false
+        view.alwaysBounceVertical = false
+        view.showsVerticalScrollIndicator = false
         view.delegate = self
         return view
     }()
@@ -64,12 +65,20 @@ class CalendarView: UIView {
         let cellRegistration = UICollectionView.CellRegistration<CalendarCollectionViewCell, CalendarEntity> { (cell, indexPath, entity) in
             cell.updateCell(entity)
         }
+        let headerRegistration = UICollectionView.SupplementaryRegistration<CalendarHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { supplementaryView, elementKind, indexPath in
+            supplementaryView.update(Weekday.allCases)
+        }
         
         let dataSource = UICollectionViewDiffableDataSource<Int, UUID>(collectionView: calendarView) {
             (collectionView, indexPath, id) -> UICollectionViewCell in
             let calendarEntity = self.entity?.item(with: id)
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: calendarEntity)
         }
+        
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
+            
         return dataSource
     }()
    
@@ -127,6 +136,15 @@ class CalendarView: UIView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .estimated(44)),
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top)
+            sectionHeader.pinToVisibleBounds = true
+            sectionHeader.zIndex = 2
+            section.boundarySupplementaryItems = [sectionHeader]
         
         calendarView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
