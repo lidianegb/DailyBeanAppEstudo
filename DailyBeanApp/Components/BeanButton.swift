@@ -50,24 +50,6 @@ class BeanButton: UIButton {
         clipsToBounds = true
     }
     
-    // MARK: BUILDER
-    
-    @discardableResult
-    func withStatus(_ status: BeanStatus) -> BeanButton {
-        self.status = status
-        return self
-    }
-    
-    @discardableResult
-    func withAction(action: ((BeanStatus) -> Void)?) -> BeanButton {
-        self.action = action
-        return self
-    }
-    
-    func build() -> BeanButton {
-        return BeanButton(status: status, action: action)
-    }
-    
     // MARK: ACTIONS
     
     @objc private func didTapButton() {

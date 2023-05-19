@@ -31,11 +31,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }()
     
     private lazy var button: BeanButton = {
-        let button = BeanButton()
-            .withAction(action: { [weak self] _ in
-                self?.showSelectBeanView.toggle()
-            })
-            .build()
+        let button = BeanButton { [weak self] _ in
+            self?.showSelectBeanView.toggle()
+        }
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

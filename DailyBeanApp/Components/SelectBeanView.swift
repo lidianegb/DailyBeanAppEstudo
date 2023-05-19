@@ -59,12 +59,9 @@ class SelectBeanView: UIView {
         vStackView.addArrangedSubview(hStackView)
         BeanStatus.allCases.forEach { status in
             if status == .default { return }
-            let buttonView = BeanButton()
-                .withStatus(status)
-                .withAction(action: { [weak self] status in
-                    self?.beanStatus?.observableStatus.onNext(status)
-                })
-                .build()
+            let buttonView = BeanButton(status: status, action: { [weak self] status in
+                self?.beanStatus?.observableStatus.onNext(status)
+            })
             buttonView.translatesAutoresizingMaskIntoConstraints = false
             buttonView.widthAnchor.constraint(equalToConstant: 50).isActive = true
             buttonView.heightAnchor.constraint(equalToConstant: 50).isActive = true
