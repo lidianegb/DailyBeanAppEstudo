@@ -26,7 +26,11 @@
 		6B04FE752A0444180027DF37 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B04FE742A0444180027DF37 /* RxSwift */; };
 		6B04FE782A053A2C0027DF37 /* SwinjectStoryboard in Frameworks */ = {isa = PBXBuildFile; productRef = 6B04FE772A053A2C0027DF37 /* SwinjectStoryboard */; };
 		6B04FE7A2A0547500027DF37 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04FE792A0547500027DF37 /* CalendarView.swift */; };
+		6B155F2B2A17A7F6003A8BF8 /* BeanStatusHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B155F2A2A17A7F6003A8BF8 /* BeanStatusHelper.swift */; };
 		6B5E2EE62A12EE4200015BB4 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */; };
+		6B8A026E2A16BE1600B8B6C9 /* ReminderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8A026D2A16BE1600B8B6C9 /* ReminderView.m */; };
+		6B8A02762A16E51700B8B6C9 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8A02752A16E51700B8B6C9 /* TimelineView.swift */; };
+		6B8A02782A16E57C00B8B6C9 /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8A02772A16E57C00B8B6C9 /* TimelineViewModel.swift */; };
 		6B9C6B672A0B061D002A6E80 /* SelectBeanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C6B662A0B061D002A6E80 /* SelectBeanView.swift */; };
 		6BA385882A0E3CD400E4C78E /* CalendarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA385872A0E3CD400E4C78E /* CalendarEntity.swift */; };
 		6BA3858B2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3858A2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift */; };
@@ -57,7 +61,14 @@
 		6B04FE5F2A04437A0027DF37 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6B04FE612A04437A0027DF37 /* TimelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		6B04FE792A0547500027DF37 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		6B155F2A2A17A7F6003A8BF8 /* BeanStatusHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeanStatusHelper.swift; sourceTree = "<group>"; };
 		6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
+		6B8A026B2A16BE1500B8B6C9 /* DailyBeanApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DailyBeanApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		6B8A026C2A16BE1600B8B6C9 /* ReminderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderView.h; sourceTree = "<group>"; };
+		6B8A026D2A16BE1600B8B6C9 /* ReminderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReminderView.m; sourceTree = "<group>"; };
+		6B8A026F2A16E31000B8B6C9 /* ReminderViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReminderViewDelegate.h; sourceTree = "<group>"; };
+		6B8A02752A16E51700B8B6C9 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		6B8A02772A16E57C00B8B6C9 /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		6B9C6B662A0B061D002A6E80 /* SelectBeanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBeanView.swift; sourceTree = "<group>"; };
 		6BA385872A0E3CD400E4C78E /* CalendarEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEntity.swift; sourceTree = "<group>"; };
 		6BA3858A2A0E3E8A00E4C78E /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -104,6 +115,7 @@
 		6B04FE3B2A0443040027DF37 /* DailyBeanApp */ = {
 			isa = PBXGroup;
 			children = (
+				6B8A026A2A16BDFF00B8B6C9 /* ObjcFiles */,
 				6BC1F58B2A0BDB3500B70825 /* Utils */,
 				6B04FE572A04437A0027DF37 /* Calendar */,
 				6B04FE592A04437A0027DF37 /* Components */,
@@ -173,9 +185,38 @@
 		6B04FE602A04437A0027DF37 /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
+				6B8A02712A16E4EA00B8B6C9 /* ViewModel */,
+				6B8A02702A16E4E500B8B6C9 /* View */,
 				6B04FE612A04437A0027DF37 /* TimelineViewController.swift */,
 			);
 			path = Timeline;
+			sourceTree = "<group>";
+		};
+		6B8A026A2A16BDFF00B8B6C9 /* ObjcFiles */ = {
+			isa = PBXGroup;
+			children = (
+				6B8A026C2A16BE1600B8B6C9 /* ReminderView.h */,
+				6B8A026D2A16BE1600B8B6C9 /* ReminderView.m */,
+				6B8A026B2A16BE1500B8B6C9 /* DailyBeanApp-Bridging-Header.h */,
+				6B8A026F2A16E31000B8B6C9 /* ReminderViewDelegate.h */,
+			);
+			path = ObjcFiles;
+			sourceTree = "<group>";
+		};
+		6B8A02702A16E4E500B8B6C9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6B8A02752A16E51700B8B6C9 /* TimelineView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6B8A02712A16E4EA00B8B6C9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6B8A02772A16E57C00B8B6C9 /* TimelineViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		6BA385862A0E3CC100E4C78E /* Entity */ = {
@@ -227,6 +268,7 @@
 				6BC1F58C2A0BDB4000B70825 /* StringExtension.swift */,
 				6B5E2EE52A12EE4200015BB4 /* PersistenceHelper.swift */,
 				6BAA49932A15114A00021C4A /* Weekdays.swift */,
+				6B155F2A2A17A7F6003A8BF8 /* BeanStatusHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -269,6 +311,7 @@
 				TargetAttributes = {
 					6B04FE382A0443040027DF37 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -325,13 +368,17 @@
 				6B04FE662A04437A0027DF37 /* DailyBeanFactory.swift in Sources */,
 				6B5E2EE62A12EE4200015BB4 /* PersistenceHelper.swift in Sources */,
 				6BA3858F2A0E434D00E4C78E /* CalendarHelper.swift in Sources */,
+				6B155F2B2A17A7F6003A8BF8 /* BeanStatusHelper.swift in Sources */,
 				6BAA49922A150ED600021C4A /* CalendarHeaderView.swift in Sources */,
 				6B04FE632A04437A0027DF37 /* DailyBeanDependencyGraph.swift in Sources */,
 				6BAA49942A15114A00021C4A /* Weekdays.swift in Sources */,
 				6B04FE3D2A0443040027DF37 /* AppDelegate.swift in Sources */,
 				6B9C6B672A0B061D002A6E80 /* SelectBeanView.swift in Sources */,
 				6B04FE672A04437A0027DF37 /* CalendarViewController.swift in Sources */,
+				6B8A02762A16E51700B8B6C9 /* TimelineView.swift in Sources */,
+				6B8A026E2A16BE1600B8B6C9 /* ReminderView.m in Sources */,
 				6B04FE6D2A04437A0027DF37 /* TimelineViewController.swift in Sources */,
+				6B8A02782A16E57C00B8B6C9 /* TimelineViewModel.swift in Sources */,
 				6B04FE6C2A04437A0027DF37 /* TabBarController.swift in Sources */,
 				6B04FE3F2A0443040027DF37 /* SceneDelegate.swift in Sources */,
 				6BC1F58A2A0BBC7300B70825 /* TabBarViewModel.swift in Sources */,
@@ -472,6 +519,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DHZ8T8PDJ7;
@@ -489,6 +537,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lidiane.barbosa.DailyBeanApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "DailyBeanApp/ObjcFiles/DailyBeanApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -499,6 +549,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DHZ8T8PDJ7;
@@ -516,6 +567,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lidiane.barbosa.DailyBeanApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "DailyBeanApp/ObjcFiles/DailyBeanApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

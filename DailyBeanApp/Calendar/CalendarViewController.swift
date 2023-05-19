@@ -10,13 +10,15 @@ import RxSwift
 
 class CalendarViewController: UIViewController {
 
+    var statusHelper: BeanStatusHelper
     private let customView: CalendarView
     private let viewModel: CalendarViewModelProtocol
     private let disposeBag = DisposeBag()
     
-    init(view: CalendarView, viewModel: CalendarViewModelProtocol) {
+    init(view: CalendarView, viewModel: CalendarViewModelProtocol, statusHelper: BeanStatusHelper) {
         self.customView = view
         self.viewModel = viewModel
+        self.statusHelper = statusHelper
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,9 +52,9 @@ class CalendarViewController: UIViewController {
         viewModel.observableStatus.subscribe { [weak self] (id, status) in
             self?.customView.updateSnapshot(id, status: status)
         }.disposed(by: disposeBag)
-    }
-    
-    func updateDailyStatus(_ status: BeanStatus) {
-        viewModel.updateDailyStatus(status)
+        
+        statusHelper.observableStatus.subscribe { [weak self] status in
+            self?.viewModel.updateDailyStatus(status)
+        }.disposed(by: disposeBag)
     }
 }

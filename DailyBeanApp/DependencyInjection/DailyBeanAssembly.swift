@@ -32,21 +32,29 @@ final class DailyBeanAssembly: Assembly {
             let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
             return CalendarViewModel(calendarHelper: calendarHelper, persistenceHelper: persistence)
         }
+        
+        container.register(TimelineViewModelProtocol.self) { resolver in
+            return TimelineViewModel()
+        }
        
         // MARK: CLASS
         
         container.register(CalendarViewController.self) { resolver in
             let customView = CalendarView()
             let viewModel = resolver.resolveUnwrapping(CalendarViewModelProtocol.self)
-            return CalendarViewController(view: customView, viewModel: viewModel)
+            let statusHelper = resolver.resolveUnwrapping(BeanStatusHelper.self)
+            return CalendarViewController(view: customView, viewModel: viewModel, statusHelper: statusHelper)
         }
         
-        container.register(TimelineViewController.self) { _ in
-            return TimelineViewController()
+        container.register(TimelineViewController.self) { resolver in
+            let customView = TimelineView()
+            let viewModel = resolver.resolveUnwrapping(TimelineViewModelProtocol.self)
+            return TimelineViewController(view: customView, viewModel: viewModel)
         }
         
         container.storyboardInitCompleted(TabBarController.self) { resolver, tab in
             tab.viewModel = resolver.resolveUnwrapping(TabBarViewModelProtocol.self)
+            tab.statusHelper = resolver.resolveUnwrapping(BeanStatusHelper.self)
         }
         
         // MARK: HELPERS
@@ -59,5 +67,9 @@ final class DailyBeanAssembly: Assembly {
         container.register(CalendarHelper.self) { resolver in
             return CalendarHelper(calendar: Calendar.current)
         }
+        
+        container.register(BeanStatusHelper.self) { _ in
+            return BeanStatusHelper()
+        }.inObjectScope(.container)
     }
 }

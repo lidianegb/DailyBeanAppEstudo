@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 class SelectBeanView: UIView {
-    var beanStatus = PublishSubject<BeanStatus>()
+    private let beanStatus: BeanStatusHelper?
     
     private lazy var hStackView: UIStackView = {
         let stack = UIStackView()
@@ -36,7 +36,9 @@ class SelectBeanView: UIView {
         return label
     }()
     
-    init() {
+    init(beanStatus: BeanStatusHelper?) {
+        self.beanStatus = beanStatus
+        
         super.init(frame: .zero)
         setup()
     }
@@ -60,7 +62,7 @@ class SelectBeanView: UIView {
             let buttonView = BeanButton()
                 .withStatus(status)
                 .withAction(action: { [weak self] status in
-                    self?.beanStatus.onNext(status)
+                    self?.beanStatus?.observableStatus.onNext(status)
                 })
                 .build()
             buttonView.translatesAutoresizingMaskIntoConstraints = false

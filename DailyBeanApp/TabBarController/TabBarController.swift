@@ -11,6 +11,7 @@ import RxSwift
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
+    var statusHelper: BeanStatusHelper?
     var viewModel: TabBarViewModelProtocol?
     private let disposeBag = DisposeBag()
     private var showSelectBeanView = false {
@@ -18,10 +19,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             animateBeanVisibility()
         }
     }
-    private var calendarController: CalendarViewController?
-  
+   
     private lazy var selectBeanView: SelectBeanView = {
-        let view = SelectBeanView()
+        let view = SelectBeanView(beanStatus: statusHelper)
         view.layer.cornerRadius = 25
         view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +46,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         if let beanStatus = viewModel?.getBeanStatus() {
             button.updateStatus(beanStatus)
+            statusHelper?.observableStatus.onNext(beanStatus)
         }
     }
     
@@ -57,9 +58,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupObservables() {
-        selectBeanView.beanStatus.subscribe(onNext: { [weak self] status in
+        statusHelper?.observableStatus.subscribe(onNext: { [weak self] status in
             self?.button.updateStatus(status)
-            self?.calendarController?.updateDailyStatus(status)
             self?.showSelectBeanView = false
         }).disposed(by: disposeBag)
     }
@@ -75,7 +75,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         guard let viewModel else { return }
         let calendarController = viewModel.makeTabBarCalendar()
         let timeLineController = viewModel.makeTabBarTimeline()
-        self.calendarController = calendarController
         self.viewControllers = [calendarController, timeLineController]
     }
  
