@@ -6,7 +6,6 @@
 //
 
 #import "ReminderView.h"
-#import <QuartzCore/QuartzCore.h>
 
 @interface ReminderView ()
 {
