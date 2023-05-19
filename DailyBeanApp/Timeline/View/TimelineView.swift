@@ -27,6 +27,12 @@ class TimelineView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        reminderView.layer.masksToBounds = true
+        reminderView.layer.cornerRadius = 8
+    }
+    
     private func setup() {
         backgroundColor = UIColor.backgroundColor
         setupViewHierarchy()
@@ -39,10 +45,9 @@ class TimelineView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            reminderView.topAnchor.constraint(equalTo: topAnchor, constant: 24),
             reminderView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             reminderView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            reminderView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -24)
+            reminderView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -100)
         ])
     }
 }

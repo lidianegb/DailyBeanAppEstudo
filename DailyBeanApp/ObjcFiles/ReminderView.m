@@ -6,11 +6,13 @@
 //
 
 #import "ReminderView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ReminderView ()
 {
     UIDatePicker *datePicker;
-    UITextField *labelDate;
+    UITextField *dateField;
+    UIImageView* clockImage;
 }
 @end
 
@@ -24,56 +26,93 @@
     return self;
 }
 - (void)setup {
+    [self setupLayout];
     [self setupViews];
     [self addViewHierarchy];
     [self addConstraints];
 }
 
+- (void)setupLayout
+{
+    self.backgroundColor = [UIColor lightGrayColor];
+}
+
 - (void)setupViews
+{
+    [self setupImage];
+    [self setupDatePicker];
+    [self setupDataField];
+}
+
+-(void)setupImage
+{
+    clockImage = [[UIImageView alloc] init];
+    clockImage.translatesAutoresizingMaskIntoConstraints = NO;
+    clockImage.image = [UIImage systemImageNamed:@"deskclock.fill"];
+    clockImage.contentMode = UIViewContentModeScaleAspectFit;
+    clockImage.tintColor = [UIColor grayColor];
+   
+}
+
+- (void)setupDatePicker
 {
     datePicker = [[UIDatePicker alloc] init];
     datePicker.translatesAutoresizingMaskIntoConstraints = NO;
     datePicker.datePickerMode = UIDatePickerModeTime;
     datePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
-    datePicker.backgroundColor=[UIColor clearColor];
     [datePicker addTarget:self action:@selector(datePickerDateChanged) forControlEvents:UIControlEventValueChanged];
     
-    labelDate = [[UITextField alloc] init];
-    labelDate.translatesAutoresizingMaskIntoConstraints = NO;
-    labelDate.placeholder = @"0:00";
-    labelDate.delegate = self;
-    labelDate.textColor = [UIColor lightGrayColor];
-    labelDate.backgroundColor=[UIColor clearColor];
-    [labelDate setInputView:datePicker];
-    [labelDate setTintColor:[UIColor clearColor]];
+    datePicker.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)setupDataField
+{
+    dateField = [[UITextField alloc] init];
+    dateField.translatesAutoresizingMaskIntoConstraints = NO;
+    dateField.placeholder = @"0:00";
     
+    dateField.delegate = self;
+    dateField.textColor = [UIColor labelColor];
+    [dateField setTintColor:[UIColor clearColor]];
+    [dateField setBackgroundColor: [UIColor whiteColor]];
+    dateField.textAlignment = NSTextAlignmentCenter;
+    [dateField setInputView:datePicker];
+    dateField.alpha = 0.3;
+    dateField.borderStyle = UITextBorderStyleRoundedRect;
 
     UIToolbar * toolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 44)];
     [toolbar setTintColor:[UIColor grayColor]];
     UIBarButtonItem *donebtn = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(datePickerDone)];
     UIBarButtonItem *space = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [toolbar setItems:[NSArray arrayWithObjects:space,donebtn, nil]];
-    [labelDate setInputAccessoryView:toolbar];
+    [dateField setInputAccessoryView:toolbar];
     
 }
 
 - (void)addViewHierarchy
 {
-    [self addSubview:labelDate];
+    [self addSubview:dateField];
+    [self addSubview:clockImage];
 }
 
 - (void)addConstraints
 {
-    [labelDate.topAnchor constraintEqualToAnchor:self.topAnchor constant:24].active = YES;
-    [labelDate.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:24].active = YES;
-    [labelDate.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-24].active = YES;
-    [labelDate.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-24].active = YES;
+    [clockImage.topAnchor constraintEqualToAnchor:self.topAnchor constant:24].active = YES;
+    [clockImage.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:24].active = YES;
+    [clockImage.trailingAnchor constraintLessThanOrEqualToAnchor:dateField.leadingAnchor constant: 24].active = YES;
+    [clockImage.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-24].active = YES;
+    [clockImage.widthAnchor constraintEqualToConstant:30].active = YES;
+    [clockImage.heightAnchor constraintEqualToConstant:30].active = YES;
+    
+    [dateField.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-24].active = YES;
+    [dateField.centerYAnchor constraintEqualToAnchor:clockImage.centerYAnchor].active = YES;
+    [dateField.widthAnchor constraintEqualToConstant:80].active = YES;
 }
 
 - (void) datePickerDone
 {
     [self datePickerDateChanged];
-    [labelDate resignFirstResponder];
+    [dateField resignFirstResponder];
 }
 
 - (void) datePickerDateChanged
@@ -81,8 +120,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat: @"HH:mm"];
     NSString* selectedValue = [NSString stringWithFormat:@"%@", [formatter stringFromDate:datePicker.date]];
-    labelDate.text = selectedValue;
-    labelDate.textColor = self.primaryColor;
+    dateField.text = selectedValue;
     [self.delegate selectedDate:selectedValue];
 }
 
