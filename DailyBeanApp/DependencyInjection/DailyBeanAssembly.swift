@@ -22,15 +22,15 @@ final class DailyBeanAssembly: Assembly {
         
         container.register(TabBarViewModelProtocol.self) { resolver in
             let factory = resolver.resolveUnwrapping(DailyBeanFactoryProtocol.self)
-            let persistence = resolver.resolveUnwrapping(PersistenceHelper.self)
+            let persistence = resolver.resolveUnwrapping(SecureStatusStore.self)
         
-            return TabBarViewModel(factory: factory, persistenceHelper: persistence)
+            return TabBarViewModel(factory: factory, securePersistence: persistence)
         }
         
         container.register(CalendarViewModelProtocol.self) { resolver in
-            let persistence = resolver.resolveUnwrapping(PersistenceHelper.self)
+            let persistence = resolver.resolveUnwrapping(SecureStatusStore.self)
             let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
-            return CalendarViewModel(calendarHelper: calendarHelper, persistenceHelper: persistence)
+            return CalendarViewModel(calendarHelper: calendarHelper, securePersistence: persistence)
         }
         
         container.register(TimelineViewModelProtocol.self) { resolver in
@@ -59,9 +59,11 @@ final class DailyBeanAssembly: Assembly {
         
         // MARK: HELPERS
         
-        container.register(PersistenceHelper.self) { resolver in
+        container.register(SecureStatusStore.self) { resolver in
+            let genericQueryable = SecureStatusQueryable()
             let calendarHelper = resolver.resolveUnwrapping(CalendarHelper.self)
-            return PersistenceHelper(calendar: calendarHelper)
+            let secureStore = SecureStore(secureStoreQueryable: genericQueryable, attrKey: kSecAttrApplicationTag)
+            return SecureStatusStore(calendar: calendarHelper, secureStore: secureStore)
         }
         
         container.register(CalendarHelper.self) { resolver in

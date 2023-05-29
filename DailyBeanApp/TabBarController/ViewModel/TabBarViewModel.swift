@@ -18,18 +18,18 @@ protocol TabBarViewModelProtocol {
 }
 
 final class TabBarViewModel {
-    let persistenceHelper: PersistenceHelper
+    let securePersistence: SecureStatusStore
     var factory: DailyBeanFactoryProtocol
  
-    init(factory: DailyBeanFactoryProtocol, persistenceHelper: PersistenceHelper) {
+    init(factory: DailyBeanFactoryProtocol, securePersistence: SecureStatusStore) {
         self.factory = factory
-        self.persistenceHelper = persistenceHelper
+        self.securePersistence = securePersistence
     }
 }
 
 extension TabBarViewModel: TabBarViewModelProtocol {
     func getBeanStatus() -> BeanStatus {
-        return persistenceHelper.getTodayStatus()
+        return securePersistence.getTodayStatus()
     }
     
     func makeTabBarCalendar() -> CalendarViewController {

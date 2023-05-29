@@ -19,7 +19,7 @@ protocol CalendarViewModelProtocol {
 
 class CalendarViewModel: CalendarViewModelProtocol {
     private let calendarHelper: CalendarHelper
-    private let persistenceHelper: PersistenceHelper
+    private let securePersistence: SecureStatusStore
     private var listEntity: CalendarListEntity?
     
     private var selectedDate = Date() {
@@ -31,9 +31,9 @@ class CalendarViewModel: CalendarViewModelProtocol {
     var observableEntity = BehaviorSubject<CalendarListEntity>(value: CalendarListEntity())
     var observableStatus = PublishSubject<(UUID, BeanStatus)>()
     
-    init(calendarHelper: CalendarHelper, persistenceHelper: PersistenceHelper) {
+    init(calendarHelper: CalendarHelper, securePersistence: SecureStatusStore) {
         self.calendarHelper = calendarHelper
-        self.persistenceHelper = persistenceHelper
+        self.securePersistence = securePersistence
         updateMonthView()
     }
     
@@ -67,7 +67,7 @@ class CalendarViewModel: CalendarViewModelProtocol {
                 var calendarEntity = CalendarEntity(day: String(day), date: actualDate)
                 
                 if calendarHelper.isPast(actualDate) {
-                    let image = persistenceHelper.getStatus(for: actualDate)
+                    let image = securePersistence.getStatus(for: actualDate)
                     calendarEntity.beanImage = image.rawValue
                 }
                 listEntity?.append(calendarEntity)
@@ -83,7 +83,7 @@ class CalendarViewModel: CalendarViewModelProtocol {
     func updateDailyStatus(_ status: BeanStatus) {
         if let item = listEntity?.item(with: calendarHelper.today()) {
             observableStatus.onNext((item.id, status))
-            persistenceHelper.saveDailyStatus(status)
+            securePersistence.saveDailyStatus(status)
         }
     }
 }
