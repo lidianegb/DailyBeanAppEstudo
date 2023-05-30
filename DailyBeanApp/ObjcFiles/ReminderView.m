@@ -12,6 +12,7 @@
     UIDatePicker *datePicker;
     UITextField *dateField;
     UIImageView* clockImage;
+    BOOL notificationEnabled;
 }
 @end
 
@@ -25,6 +26,7 @@
     return self;
 }
 - (void)setup {
+    notificationEnabled = NO;
     [self setupLayout];
     [self setupViews];
     [self addViewHierarchy];
@@ -33,7 +35,7 @@
 
 - (void)setupLayout
 {
-    self.backgroundColor = [UIColor lightGrayColor];
+    self.backgroundColor = [UIColor systemGray5Color];
 }
 
 - (void)setupViews
@@ -50,8 +52,20 @@
     clockImage.image = [UIImage systemImageNamed:@"deskclock.fill"];
     clockImage.contentMode = UIViewContentModeScaleAspectFit;
     clockImage.tintColor = [UIColor grayColor];
-   
+    
+    clockImage.userInteractionEnabled = YES;
+
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector(tapGesture:)];
+    tapGesture.numberOfTapsRequired = 1;
+    [tapGesture setDelegate:self];
+    [clockImage addGestureRecognizer:tapGesture];
 }
+
+- (void) tapGesture: (id)sender
+{
+    notificationEnabled ^= YES;
+    [self activateNotification];
+ }
 
 - (void)setupDatePicker
 {
@@ -73,10 +87,9 @@
     dateField.delegate = self;
     dateField.textColor = [UIColor labelColor];
     [dateField setTintColor:[UIColor clearColor]];
-    [dateField setBackgroundColor: [UIColor whiteColor]];
+    [dateField setBackgroundColor: [UIColor systemGray3Color]];
     dateField.textAlignment = NSTextAlignmentCenter;
     [dateField setInputView:datePicker];
-    dateField.alpha = 0.3;
     dateField.borderStyle = UITextBorderStyleRoundedRect;
 
     UIToolbar * toolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 44)];
@@ -121,6 +134,22 @@
     NSString* selectedValue = [NSString stringWithFormat:@"%@", [formatter stringFromDate:datePicker.date]];
     dateField.text = selectedValue;
     [self.delegate selectedDate:selectedValue];
+    notificationEnabled = YES;
+    [self activateNotification];
+}
+
+-(void) activateNotification
+{
+    if (notificationEnabled) {
+        clockImage.tintColor = _primaryColor;
+        dateField.backgroundColor = _primaryColor;
+        dateField.textColor = [UIColor whiteColor];
+    } else {
+        clockImage.tintColor = [UIColor grayColor];
+        [dateField setBackgroundColor: [UIColor systemGray3Color]];
+        dateField.textColor = [UIColor labelColor];
+    }
+   
 }
 
 @end

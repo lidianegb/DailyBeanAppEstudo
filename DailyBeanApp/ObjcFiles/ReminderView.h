@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "ReminderViewDelegate.h"
 
-@interface ReminderView : UIView<UITextFieldDelegate>
+@interface ReminderView : UIView<UITextFieldDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, copy) UIColor *primaryColor;
 @property (nonatomic, weak) id<ReminderViewDelegate> delegate;
