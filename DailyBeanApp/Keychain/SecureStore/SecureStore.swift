@@ -50,12 +50,12 @@ public struct SecureStore {
         
     }
     
-    public func getValue(for userAccount: String) throws -> String? {
+    public func getValue(for key: String) throws -> String? {
         var query = secureStoreQueryable.query
         query[String(kSecMatchLimit)] = kSecMatchLimitOne
         query[String(kSecReturnAttributes)] = kCFBooleanTrue
         query[String(kSecReturnData)] = kCFBooleanTrue
-        query[String(attrKey)] = userAccount
+        query[String(attrKey)] = key
 
         var queryResult: AnyObject?
         let status = withUnsafeMutablePointer(to: &queryResult) {

@@ -12,7 +12,6 @@ class TimelineViewController: UIViewController {
     private let customView: TimelineView
     private let viewModel: TimelineViewModelProtocol
     
-    
     init(view: TimelineView, viewModel: TimelineViewModelProtocol) {
         self.customView = view
         self.viewModel = viewModel
@@ -28,5 +27,28 @@ class TimelineViewController: UIViewController {
     }
     override func loadView() {
         self.view = customView
+        customView.delegate = self
     }
+}
+
+extension TimelineViewController: TimelineViewDelegate {
+    func disableNotification() {
+        viewModel.disableNotification()
+    }
+    
+    func navigateToSettings() {
+        if let aString = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(aString, options: [:], completionHandler: { _ in })
+        }
+    }
+    
+    func requestAuthorization(completionHandler: @escaping (Bool) -> ()) {
+        viewModel.requestAuthorization(completionHandler: completionHandler)
+    }
+    
+    func scheduleLocalNotification(date: Date) {
+        viewModel.scheduleLocalNotification(date: date)
+    }
+    
+    
 }

@@ -9,9 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^Completion)(BOOL success);
+
 @protocol ReminderViewDelegate <NSObject>
 
-- (void)selectedDate:(NSString*) date;
+- (void) selectedDate: (NSDate*) date completed:(Completion)completed;
+- (void) disableNotification;
 
 @end
 

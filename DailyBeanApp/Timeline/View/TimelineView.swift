@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol TimelineViewDelegate: AnyObject {
+    func navigateToSettings()
+    func requestAuthorization(completionHandler: @escaping (_ success: Bool) -> ())
+    func scheduleLocalNotification(date: Date)
+    func disableNotification()
+}
+
 class TimelineView: UIView {
 
     private lazy var reminderView: ReminderView = {
@@ -17,7 +24,9 @@ class TimelineView: UIView {
         view.setContentHuggingPriority(.required, for: .vertical)
         return view
     }()
-
+    
+    weak var delegate: TimelineViewDelegate?
+    
     init() {
         super.init(frame: .zero)
         setup()
@@ -53,7 +62,27 @@ class TimelineView: UIView {
 }
 
 extension TimelineView: ReminderViewDelegate {
-    func selectedDate(_ date: String) {
-        print(date)
+    func disableNotification() {
+        delegate?.disableNotification()
+    }
+    
+    func selectedDate(_ date: Date, completed completion: @escaping (_ success: Bool) -> ()) {
+        UNUserNotificationCenter.current().getNotificationSettings { [delegate] notificationSettings in
+            switch notificationSettings.authorizationStatus {
+            case .authorized, .provisional, .ephemeral:
+                delegate?.scheduleLocalNotification(date: date)
+                completion(true)
+            default:
+                delegate?.requestAuthorization { success in
+                    guard success else {
+                        completion(success)
+                        delegate?.navigateToSettings()
+                        return
+                    }
+                    delegate?.scheduleLocalNotification(date: date)
+                    completion(success)
+                }
+            }
+        }
     }
 }

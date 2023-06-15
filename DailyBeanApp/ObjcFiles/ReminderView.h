@@ -10,7 +10,7 @@
 
 @interface ReminderView : UIView<UITextFieldDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, copy) UIColor *primaryColor;
+@property (nonatomic) UIColor *primaryColor;
 @property (nonatomic, weak) id<ReminderViewDelegate> delegate;
 
 @end

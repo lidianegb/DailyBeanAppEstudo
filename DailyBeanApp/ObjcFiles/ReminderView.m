@@ -63,8 +63,15 @@
 
 - (void) tapGesture: (id)sender
 {
-    notificationEnabled ^= YES;
-    [self activateNotification];
+    [self.delegate selectedDate:datePicker.date completed:^(BOOL success) {
+        self->notificationEnabled ^= YES;
+        if (!self->notificationEnabled) {
+            [self.delegate disableNotification];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateLayoutNotification];
+        });
+    }];
  }
 
 - (void)setupDatePicker
@@ -133,12 +140,20 @@
     [formatter setDateFormat: @"HH:mm"];
     NSString* selectedValue = [NSString stringWithFormat:@"%@", [formatter stringFromDate:datePicker.date]];
     dateField.text = selectedValue;
-    [self.delegate selectedDate:selectedValue];
-    notificationEnabled = YES;
-    [self activateNotification];
+    [self.delegate selectedDate:datePicker.date completed:^(BOOL success) {
+        if (success) {
+            self->notificationEnabled = YES;
+            if (!self->notificationEnabled) {
+                [self.delegate disableNotification];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self updateLayoutNotification];
+            });
+        }
+    }];
 }
 
--(void) activateNotification
+-(void) updateLayoutNotification
 {
     if (notificationEnabled) {
         clockImage.tintColor = _primaryColor;
@@ -149,7 +164,6 @@
         [dateField setBackgroundColor: [UIColor systemGray3Color]];
         dateField.textColor = [UIColor labelColor];
     }
-   
 }
 
 @end
